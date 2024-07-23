@@ -18,41 +18,26 @@ def get_IMDB_id(movie_url):
 def converter(filelocation):
     df = pd.read_csv(filelocation)
     print(df.columns)
-    # f = open("export.txt", "w")
-    # error_log = open("errors.log","w")
-    # counter = 0
-    # total_minutes = 0
+    file = open("export.csv", "w")
+    error_log = open("errors.log","w")
+    counter = 0
 
     for url in df['Letterboxd URI']:
         response = get_IMDB_id(url)
         if response == 0:
-            print("ERROR")
+            print(f"Error in : {df['Name'][counter]} : {url}")
+            error_string = "Error in : " + df['Name'][counter] + " - " + url + "\n"
+            error_log.write(error_string)
         else:
-            print(f"{response} + add to csv")    
-    #     time.sleep(2)
-    #     movie_time = calc(url)
-    #     total_minutes += movie_time
-    #     print(df['Name'][counter] + " : " + str(movie_time) + " minutes")
+            print(f"{response} + add to csv")
+            file.write(f"")
 
-    #     if movie_time == 0:
-    #         error_string = "Error in : " + df['Name'][counter] + " - " + url + "\n"
-    #         error_log.write(error_string)
-    #         listbox.insert(counter + 2, error_string)
-    #     else:
-    #         output_string = df['Name'][counter] + " : " + str(movie_time) + " minutes\n"
-    #         f.write(output_string)
-    #         listbox.insert(counter + 2,  output_string)
-
-    #     counter += 1
-
-    # f.write(f"\nTotal movie watchtime in minutes : {total_minutes}\n")
-    # f.write(f"Total movie watchtime in hours : {total_minutes / 60}\n")
-    # listbox2.insert(2, f"Total movie watchtime in minutes : {total_minutes}\n")
-    # listbox2.insert(3, f"Total movie watchtime in hours : {total_minutes / 60}\n")
-
-    # f.close()
-    # error_log.close()
-    # messagebox.showinfo("Success", "Done Processing") 
+        
+        counter += 1
+    
+    file.close()
+    error_log.close()
+ 
 
 
 def main():
