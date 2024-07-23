@@ -17,10 +17,11 @@ def get_IMDB_id(movie_url):
 
 def converter(filelocation):
     df = pd.read_csv(filelocation)
-    print(df.columns)
     file = open("export.csv", "w")
     error_log = open("errors.log","w")
     counter = 0
+
+    file.write("Position,Const,Created,Modified,Description,Title,URL,Title Type,IMDb Rating,Runtime (mins),Year,Genres,Num Votes,Release Date,Directors,Your Rating,Date Rated\n")
 
     for url in df['Letterboxd URI']:
         response = get_IMDB_id(url)
@@ -30,9 +31,8 @@ def converter(filelocation):
             error_log.write(error_string)
         else:
             print(f"{response} + add to csv")
-            file.write(f"")
+            file.write(f"{counter + 1},{response},2020-05-16,2020-05-16,,Top Gun: Maverick,https://www.imdb.com/title/{response}/,movie,7.5,108,2022,""Animation, Drama, Fantasy"",64368,2016-09-09,J.A. Bayona,,\n")
 
-        
         counter += 1
     
     file.close()
