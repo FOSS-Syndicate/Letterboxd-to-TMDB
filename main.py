@@ -5,17 +5,13 @@ def calc(movie_url):
     try:
         response = requests.get("https://boxd.it/chpK")
         soup = BeautifulSoup(response.content, 'html.parser')
-        text = str(soup.find_all(class_="text-link text-footer"))
-        text3 = text.find_all()   
-
-        print(text)
+        text = str(soup.find_all(class_="text-link text-footer"))  
 
         tokens = text.split(" ")
-        time_token = tokens[2]
-        digit_buffer = ""
-        for character in time_token:
-            if character.isnumeric():
-                digit_buffer += character
+        IMDB_token = tokens[8].split("/")
+        
+        print(IMDB_token)
+
 
         return int(digit_buffer)
     
