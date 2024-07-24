@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import sys
 
 def get_IMDB_info(movie_url):
     try:
@@ -20,12 +21,12 @@ def get_IMDB_info(movie_url):
 
         return IMDB_id_token, time_token
     except:
-        return 0
+        return 0, 0
 
-def converter(filelocation):
-    df = pd.read_csv(filelocation)
-    file = open("export.csv", "w")
-    error_log = open("errors.log","w")
+def converter(in_file_loc, out_file_loc):
+    df = pd.read_csv(in_file_loc)
+    file = open("exports/export.csv", "w")
+    error_log = open("exports/errors.log","w")
     counter = 0
     total_watch_time = 0
 
@@ -34,23 +35,34 @@ def converter(filelocation):
     for url in df['Letterboxd URI']:
         response, time = get_IMDB_info(url)
         total_watch_time += int(time)
-        if response == 0:
+        if response == 0 and time == 0:
             print(f"Error in : {df['Name'][counter]} : {url}")
             error_string = "Error in : " + df['Name'][counter] + " - " + url + "\n"
             error_log.write(error_string)
         else:
-            print(f"{df['Name'][counter]} : {response}: {time} done...")
+            print(f"{counter + 1} > {df['Name'][counter]} : {response}: {time} done...")
             file.write(f"{counter + 1},{response},{df['Date'][counter]},{df['Date'][counter]},,{df['Name'][counter]},https://www.imdb.com/title/{response}/,movie,7.5,{response},{df['Year'][counter]},""Animation, Drama, Fantasy"",64368,2016-09-09,J.A. Bayona,,\n")
 
         counter += 1
 
-    print(total_watch_time)
+    print(f"Total Watch Time : {total_watch_time} minutes")
     file.close()
     error_log.close()
- 
-
 
 def main():
-    converter('./tests/watched.csv')
+    try:
+        if len(sys.argv) < 2:
+            print("Invalid Usage")
+            print("Usage")
+        elif len(sys.argv) >= 2:
+            if "-o" in sys.argv:
+                print("-o detected")
+            else:
+                converter(sys.argv[1])
+
+    except:
+        ...
+    # print(argc)
+    print(len(sys.argv))
 
 main()
