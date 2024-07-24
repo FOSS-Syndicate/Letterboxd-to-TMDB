@@ -53,20 +53,20 @@ def converter(in_file_loc, out_file_loc):
     file.close()
     error_log.close()
 
+def usage():
+    print(f"Usage:\n python main.py <letterboxd-watched.csv> OR \n python main.py <letterboxd-watched.csv> -o <output.csv>")
+
 def main():
     try:
         if len(sys.argv) < 2:
             print("Invalid Usage")
-            print("Usage")
+            usage()
         elif len(sys.argv) >= 2:
             if "-o" in sys.argv:
                 converter(sys.argv[1], sys.argv[3])
             else:
                 converter(sys.argv[1], "export.csv")
-
     except:
-        ...
-    # print(argc)
-    print(len(sys.argv))
+        usage()
 
 main()
