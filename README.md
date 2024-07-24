@@ -4,7 +4,9 @@ A script to convert letterboxd export list to TMDB supported (IMDB V3) csv forma
 # Usage
 - Installing the required libraries
 
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 - running the script
 ```
