@@ -24,8 +24,12 @@ def get_IMDB_info(movie_url):
         return 0, 0
 
 def converter(in_file_loc, out_file_loc):
+    if ".csv" in out_file_loc:
+        file = open(f"{out_file_loc}", "w")
+    else:    
+        file = open(f"{out_file_loc}.csv", "w")
+
     df = pd.read_csv(in_file_loc)
-    file = open("exports/export.csv", "w")
     error_log = open("exports/errors.log","w")
     counter = 0
     total_watch_time = 0
@@ -56,9 +60,9 @@ def main():
             print("Usage")
         elif len(sys.argv) >= 2:
             if "-o" in sys.argv:
-                print("-o detected")
+                converter(sys.argv[1], sys.argv[3])
             else:
-                converter(sys.argv[1])
+                converter(sys.argv[1], "export.csv")
 
     except:
         ...
